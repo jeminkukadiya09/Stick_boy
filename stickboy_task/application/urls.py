@@ -1,0 +1,48 @@
+"""stickboy_task URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path,include
+from application.views import UserRegistrationView,UserLoginView,ChangePasswordView
+from application import views
+from rest_framework.routers import DefaultRouter
+from django.views.generic.base import TemplateView
+from django.contrib.auth import views as auth_views
+
+
+
+urlpatterns = [
+    path('signup',UserRegistrationView.as_view(),name='signup'),
+    path('login',UserLoginView.as_view(),name='login'),
+    path('change_password/<int:pk>/',ChangePasswordView.as_view(), name='auth_change_password'),
+    path('auth/',include('rest_framework.urls',namespace ='rest_framework')),
+    path('home/',views.home),
+    path('signuphtml/',views.signup, name = 'signuphtml'),
+    path('loginhtml/',views.login, name = 'loginhtml'),
+    path('retrievehtml/',views.retrieve, name = 'retrievehtml'),
+    path('updatehtml/',views.update, name = 'updatehtml'),
+    path('deletehtml/',views.delete, name = 'deletehtml'),
+    path('newpass/',views.newpassword,name = 'newpass'),
+    path('update/<int:pk>' ,views.Update.as_view(), name = 'update'),
+    path('password_reset/',auth_views.PasswordResetView.as_view(template_name='password_reset.html'),name='password_reset'),
+    path('accounts/password_reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='password_reset_sent.html'),name='password_reset_done'),
+    path('accounts/reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='password_reset_form.html'),name='password_reset_confirm'),
+    path('accounts/reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='password_reset_complete.html'),name='password_reset_complete'),
+    path('mail/',views.mail),
+    path('sentmail/', views.sentMail.as_view(), name="sent-mail"),
+    
+   
+]
+

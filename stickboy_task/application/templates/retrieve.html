@@ -1,0 +1,53 @@
+<html>
+<head runat ="server">
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script>
+     $(document).ready(function () {
+    $('.apireq').click( function() {
+       
+        var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+        var i0d = $('#pk').val();
+        
+         var url = "{% url 'retrieve' 1 %}".replace('1',id)
+         
+    $.ajax({
+             url : url,
+             headers:{"X-CSRFToken": $crf_token},
+             dataType: "json",
+             success : function (data) {
+                      $('#username').text( data.username);
+                      $('#email').text( data.email);
+                      $('#contact').text( data.contact);
+                      $('#id ').text( data.id );
+                    }
+                 });
+             });
+});
+    </script>
+</head>
+<body>
+    {% csrf_token%}
+   <form method = 'post'>
+   {% csrf_token%}
+        Enter user id here: <input type="number" id ="pk">
+       
+    </form>
+     <button class="apireq">click me </button>
+
+<div id="jsonresp" style="margin-top: 100px">
+   <p><label> username :</label> <span id="username"></span></p>
+   <p><label> email :</label> <span id="email"></span></p>
+   <p><label> contact :</label> <span id="contact"></span></p>
+   <p><label> id :</label> <span id="id"></span></p>
+
+  
+  
+</div>
+
+    <script type="text/javascript"></script> 
+
+
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>  
+<html>  
+<head runat="server">  
+    <title>Login</title>  
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>  
+     <script>  
+         $(document).ready(function () {  
+             $("#Save").click(function () {  
+                 var $crf_token = $('[name="csrfmiddlewaretoken"]').attr('value');
+                 var url = "{% url 'login' %}"
+                 var url1 = "{% url 'updatehtml' %}"
+                 var person = new Object();  
+                 person.email = $('#email').val();
+                 person.password = $('#password').val();
+                 var ndata = JSON.stringify(person);
+                     
+                 $.ajax({  
+                     url: url,  
+                     type: "POST",  
+                     dataType: "json",  
+                     contentType: "application/json; charset=utf-8",
+                     data: ndata, 
+                     headers:{"X-CSRFToken": $crf_token}, 
+                     success: function (ndata) {  
+                         window.location.href = url1;  
+                     },  
+                     error: function () {  
+                         alert("Error");  
+                     }  
+                 });  
+             });  
+         });  
+    </script>  
+</head>  
+<body>  
+    {%csrf_token%}
+    <form>  
+        email:- <input type="text" id="email" />  <br>
+        password:- <input type="text" id="password" /><br>  
+        <input type="button" id="Save" value="Login" />  
+
+    </form>  
+    <a href="{% url 'newpass' %}">ForgotPassword</a><br>
+    <a href="{% url 'password_reset' %}">ForgotPasswordusingGmail</a><br>
+
+</body>  
+</html>
